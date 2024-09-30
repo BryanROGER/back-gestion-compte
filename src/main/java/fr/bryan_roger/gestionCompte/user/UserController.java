@@ -1,10 +1,7 @@
 package fr.bryan_roger.gestionCompte.user;
 
 import fr.bryan_roger.gestionCompte.responseApi.ResponseAPI;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,7 +11,6 @@ import java.util.List;
 @CrossOrigin
 public class UserController {
 
-    private static final Logger log = LoggerFactory.getLogger(UserController.class);
     private final UserService userService;
 
     public UserController(UserService userService) {
@@ -22,7 +18,7 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<ResponseAPI<List<User>>> users(Model model) {
+    public ResponseEntity<ResponseAPI<List<User>>> users() {
         var responseUsers = userService.getAllUsers();
         return ResponseEntity.ok(responseUsers);
     }

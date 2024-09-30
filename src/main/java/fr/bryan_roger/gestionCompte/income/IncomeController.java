@@ -1,22 +1,17 @@
-package fr.bryan_roger.gestionCompte.user;
+package fr.bryan_roger.gestionCompte.income;
 
-import fr.bryan_roger.gestionCompte.income.Income;
-import fr.bryan_roger.gestionCompte.income.IncomeService;
 import fr.bryan_roger.gestionCompte.responseApi.ResponseAPI;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RequestMapping("/income")
 @RestController
 @CrossOrigin
 public class IncomeController {
 
-    private static final Logger log = LoggerFactory.getLogger(IncomeController.class);
     private final IncomeService incomeService;
 
     public IncomeController(IncomeService incomeService) {
@@ -24,7 +19,7 @@ public class IncomeController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<ResponseAPI<List<Income>>> incomes(Model model) {
+    public ResponseEntity<ResponseAPI<List<Income>>> incomes() {
         var responseIncomes = incomeService.getAllIncomes();
         return ResponseEntity.ok(responseIncomes);
     }
@@ -45,6 +40,14 @@ public class IncomeController {
     public ResponseEntity<ResponseAPI<Income>> deleteIncome(@PathVariable String id) {
         var responseIncomeToDelete = incomeService.deleteIncome(id);
         return ResponseEntity.ok(responseIncomeToDelete);
+    }
+
+    @PostMapping("/all-in-a-month")
+    public ResponseEntity<ResponseAPI<List<Income>>> getIncomeInMonth(@RequestBody Map<String, String> params) {
+        String month = params.get("month");
+        String year = params.get("year");
+        var incomeInMonth = incomeService.getIncomesInAMonth(month, year);
+        return ResponseEntity.ok(incomeInMonth);
     }
 
 

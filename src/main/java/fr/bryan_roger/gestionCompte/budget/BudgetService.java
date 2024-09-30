@@ -2,18 +2,20 @@ package fr.bryan_roger.gestionCompte.budget;
 
 import fr.bryan_roger.gestionCompte.responseApi.ResponseAPI;
 import fr.bryan_roger.gestionCompte.responseApi.ResponseApiService;
-import fr.bryan_roger.gestionCompte.user.User;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class BudgetService {
 
-    @Autowired
-    private BudgetRepository budgetRepository;
+    private final BudgetRepository budgetRepository;
+
+    public BudgetService(BudgetRepository budgetRepository) {
+        this.budgetRepository = budgetRepository;
+    }
 
     public ResponseAPI<List<Budget>> getAllBudgets() {
         var budgets = budgetRepository.findAll();
@@ -21,13 +23,13 @@ public class BudgetService {
     }
 
     public ResponseAPI<Budget> getBudgetById(String id) {
-        var idBudget = Long.parseLong(id);
+        UUID idBudget = UUID.fromString(id);
         var budget = budgetRepository.getReferenceById(idBudget);
         return ResponseApiService.createInstance("200", "Le budget a été chargé avec succès", budget);
     }
 
     public ResponseAPI<Budget> createOrUpdateBudget(Budget budget) {
-        if (budget.getId() == 0) {
+        if (budget.getId() == null || budget.getId().toString().isEmpty()) {
             var newBudget = budgetRepository.save(budget);
             return ResponseApiService.createInstance("201", "Le budget a été créé avec succès", newBudget);
         }
@@ -41,9 +43,7 @@ public class BudgetService {
 
     public ResponseAPI<Budget> deleteBudget(String id) {
         try {
-            // s'assurer que l'id est un long
-            var idBudget = Long.parseLong(id);
-            // vérifier si un user avec l'id demandé existe
+            UUID idBudget = UUID.fromString(id);
             budgetRepository.deleteById(idBudget);
             return ResponseApiService.createInstance("204", "Le budget a été supprimé avec succès", null);
         } catch (NumberFormatException e) {

@@ -3,27 +3,36 @@ package fr.bryan_roger.gestionCompte.income;
 import fr.bryan_roger.gestionCompte.tag.Tag;
 import fr.bryan_roger.gestionCompte.user.User;
 import jakarta.persistence.*;
-
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Entity
 public class Income implements Serializable {
+    @Serial
     private static final  long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false, updatable = false)
-    private long id;
+    private UUID id;
     @ManyToOne
     private Tag tag;
     @ManyToOne
     private User user;
     private BigDecimal amount;
-    private String date; // TODO: combinaison de l'année et du mois en cours
+    private String date;
 
-    public Income(long id, Tag tag, User user, BigDecimal amount, String date) {
+    public Income(UUID id, Tag tag, User user, BigDecimal amount, String date) {
         this.id = id;
+        this.tag = tag;
+        this.user = user;
+        this.amount = amount;
+        this.date = date;
+    }
+
+    public Income( Tag tag, User user, BigDecimal amount, String date) {
         this.tag = tag;
         this.user = user;
         this.amount = amount;
@@ -33,7 +42,7 @@ public class Income implements Serializable {
     public Income() {
     }
 
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
@@ -45,7 +54,7 @@ public class Income implements Serializable {
         this.tag = tag;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -73,5 +82,16 @@ public class Income implements Serializable {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return "Income{" +
+                "id=" + id +
+                ", tag=" + tag +
+                ", user=" + user +
+                ", amount=" + amount +
+                ", date='" + date + '\'' +
+                '}';
     }
 }

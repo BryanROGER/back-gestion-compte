@@ -1,10 +1,7 @@
 package fr.bryan_roger.gestionCompte.tag;
 
 import fr.bryan_roger.gestionCompte.responseApi.ResponseAPI;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,7 +11,6 @@ import java.util.List;
 @CrossOrigin
 public class TagController {
 
-    private static final Logger log = LoggerFactory.getLogger(TagController.class);
     private final TagService tagService;
 
     public TagController(TagService tagService) {
@@ -22,7 +18,7 @@ public class TagController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<ResponseAPI<List<Tag>>> tags(Model model) {
+    public ResponseEntity<ResponseAPI<List<Tag>>> tags() {
         var responseTags = tagService.getAllTags();
         return ResponseEntity.ok(responseTags);
     }

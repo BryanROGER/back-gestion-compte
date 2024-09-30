@@ -4,38 +4,46 @@ import fr.bryan_roger.gestionCompte.wallet.Wallet;
 import jakarta.persistence.*;
 
 
+import java.io.Serial;
 import java.io.Serializable;
+import java.util.UUID;
 
 @Entity
 public class User implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false, updatable = false)
-    private long id;
+    private UUID id;
     private String lastname;
     private String firstname;
-    private String color; //TODO: mettre une couleur par default avec des random sur les RGB
+    private String backgroundColor;
+    private String letterColor;
     @OneToOne
     private Wallet wallet;
 
 
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public User(String lastname, String firstname, String color) {
-        this.lastname = lastname;
-        this.firstname = firstname;
-        this.color = color;
-    }
-
-    public User(long id, String lastname, String firstname, String color) {
+    public User(UUID id, String lastname, String firstname, String backgroundColor, String letterColor, Wallet wallet) {
         this.id = id;
         this.lastname = lastname;
         this.firstname = firstname;
-        this.color = color;
+        this.backgroundColor = backgroundColor;
+        this.letterColor = letterColor;
+        this.wallet = wallet;
+    }
+
+    public User(String lastname, String firstname, String backgroundColor, String letterColor, Wallet wallet) {
+        this.lastname = lastname;
+        this.firstname = firstname;
+        this.backgroundColor = backgroundColor;
+        this.letterColor = letterColor;
+        this.wallet = wallet;
     }
 
     public User() {
@@ -57,12 +65,24 @@ public class User implements Serializable {
         this.firstname = firstname;
     }
 
-    public String getColor() {
-        return color;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public String getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setBackgroundColor(String backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    public String getLetterColor() {
+        return letterColor;
+    }
+
+    public void setLetterColor(String letterColor) {
+        this.letterColor = letterColor;
     }
 
     public Wallet getWallet() {
@@ -78,7 +98,7 @@ public class User implements Serializable {
         return "User{" +
                 "lastname='" + lastname + '\'' +
                 ", firstname='" + firstname + '\'' +
-                ", color='" + color + '\'' +
+                ", color='" + letterColor + '\'' +
                 ", wallet=" + wallet +
                 '}';
     }

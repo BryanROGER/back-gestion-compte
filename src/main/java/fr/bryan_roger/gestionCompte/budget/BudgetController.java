@@ -2,11 +2,7 @@ package fr.bryan_roger.gestionCompte.budget;
 
 
 import fr.bryan_roger.gestionCompte.responseApi.ResponseAPI;
-import fr.bryan_roger.gestionCompte.user.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,7 +12,6 @@ import java.util.List;
 @CrossOrigin
 public class BudgetController {
 
-    private static final Logger log = LoggerFactory.getLogger(BudgetController.class);
     private final BudgetService budgetService;
 
     public BudgetController(BudgetService budgetService) {
@@ -24,7 +19,7 @@ public class BudgetController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<ResponseAPI<List<Budget>>> budgets(Model model) {
+    public ResponseEntity<ResponseAPI<List<Budget>>> budgets() {
         var responseBugdets = budgetService.getAllBudgets();
         return ResponseEntity.ok(responseBugdets);
     }

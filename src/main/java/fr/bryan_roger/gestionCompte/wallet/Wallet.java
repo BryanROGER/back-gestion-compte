@@ -2,25 +2,43 @@ package fr.bryan_roger.gestionCompte.wallet;
 
 import fr.bryan_roger.gestionCompte.budget.Budget;
 import jakarta.persistence.*;
+import org.springframework.lang.Nullable;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+
 @Entity
 public class Wallet implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false, updatable = false)
-    private long id;
-    @ManyToOne(targetEntity = Budget.class)
-    private Budget[] budgets;
+    private UUID id;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "wallet_budget",
+            joinColumns = @JoinColumn(name = "wallet_id"),
+            inverseJoinColumns = @JoinColumn(name = "budget_id"))
+    @Nullable
+    private List<Budget> budgets;
     private Date startDate;
     private Date endDate;
     private boolean isActive;
 
-    public Wallet(long id, Budget[] budgets, Date startDate, Date endDate, boolean isActive) {
+    public Wallet(UUID id, List<Budget> budgets, Date startDate, Date endDate, boolean isActive) {
         this.id = id;
+        this.budgets = budgets;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.isActive = isActive;
+    }
+
+    public Wallet( List<Budget> budgets, Date startDate, Date endDate, boolean isActive) {
         this.budgets = budgets;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -30,15 +48,15 @@ public class Wallet implements Serializable {
     public Wallet() {
     }
 
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public Budget[] getBudgets() {
+    public List<Budget> getBudgets() {
         return budgets;
     }
 
-    public void setBudgets(Budget[] budgets) {
+    public void setBudgets(List<Budget> budgets) {
         this.budgets = budgets;
     }
 
@@ -64,5 +82,16 @@ public class Wallet implements Serializable {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    @Override
+    public String toString() {
+        return "Wallet{" +
+                "id=" + id +
+                ", budgets=" + budgets +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", isActive=" + isActive +
+                '}';
     }
 }

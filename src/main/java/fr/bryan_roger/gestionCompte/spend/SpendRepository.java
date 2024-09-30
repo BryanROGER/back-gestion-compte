@@ -2,5 +2,9 @@ package fr.bryan_roger.gestionCompte.spend;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface SpendRepository extends JpaRepository<Spend, Long> {
+import java.util.List;
+import java.util.UUID;
+
+public interface SpendRepository extends JpaRepository<Spend, UUID> {
+    List<Spend> findByDate(String date);
 }

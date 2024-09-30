@@ -4,23 +4,26 @@ import fr.bryan_roger.gestionCompte.tag.Tag;
 import fr.bryan_roger.gestionCompte.user.User;
 import jakarta.persistence.*;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 public class Spend implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false, updatable = false)
-    private long id;
-    private String nom;
-    private String date; // TODO : combinaison de l'année + du mois
+    private UUID id;
+    private String name;
+    private String date;
     @ManyToOne
     private User payer;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "transaction_recipient",
             joinColumns = @JoinColumn(name = "transaction_id"),
@@ -30,9 +33,18 @@ public class Spend implements Serializable {
     @ManyToOne
     private Tag tag;
 
-    public Spend(long id, String nom, String date, User payer, List<User> recipients, BigDecimal amount, Tag tag) {
+    public Spend(UUID id, String name, String date, User payer, List<User> recipients, BigDecimal amount, Tag tag) {
         this.id = id;
-        this.nom = nom;
+        this.name = name;
+        this.date = date;
+        this.payer = payer;
+        this.recipients = recipients;
+        this.amount = amount;
+        this.tag = tag;
+    }
+
+    public Spend(String name, String date, User payer, List<User> recipients, BigDecimal amount, Tag tag) {
+        this.name = name;
         this.date = date;
         this.payer = payer;
         this.recipients = recipients;
@@ -45,16 +57,16 @@ public class Spend implements Serializable {
 
 
 
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public String getNom() {
-        return nom;
+    public String getName() {
+        return name;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public void setName(String nom) {
+        this.name = nom;
     }
 
     public BigDecimal getAmount() {
@@ -81,7 +93,7 @@ public class Spend implements Serializable {
         this.payer = payer;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -101,5 +113,16 @@ public class Spend implements Serializable {
         this.tag = tag;
     }
 
-
+    @Override
+    public String toString() {
+        return "Spend{" +
+                "id=" + id +
+                ", nom='" + name + '\'' +
+                ", date='" + date + '\'' +
+                ", payer=" + payer +
+                ", recipients=" + recipients +
+                ", amount=" + amount +
+                ", tag=" + tag +
+                '}';
+    }
 }

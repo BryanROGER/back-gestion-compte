@@ -1,11 +1,7 @@
 package fr.bryan_roger.gestionCompte.wallet;
 
 import fr.bryan_roger.gestionCompte.responseApi.ResponseAPI;
-import fr.bryan_roger.gestionCompte.user.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,7 +11,6 @@ import java.util.List;
 @CrossOrigin
 public class WalletController {
 
-    private static final Logger log = LoggerFactory.getLogger(WalletController.class);
     private final WalletService walletService;
 
     public WalletController(WalletService walletService) {
@@ -23,7 +18,7 @@ public class WalletController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<ResponseAPI<List<Wallet>>> wallets(Model model) {
+    public ResponseEntity<ResponseAPI<List<Wallet>>> wallets() {
         var responseWallet = walletService.getAllWallets();
         return ResponseEntity.ok(responseWallet);
     }

@@ -1,24 +1,21 @@
 package fr.bryan_roger.gestionCompte.wallet;
 
-import fr.bryan_roger.gestionCompte.income.Income;
 import fr.bryan_roger.gestionCompte.responseApi.ResponseAPI;
 import fr.bryan_roger.gestionCompte.responseApi.ResponseApiService;
 import jakarta.persistence.EntityNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class WalletService {
 
-    private static final Logger log = LoggerFactory.getLogger(WalletService.class);
+    private final WalletRepository walletRepository;
 
-    @Autowired
-    private WalletRepository walletRepository;
-
+    public WalletService(WalletRepository walletRepository) {
+        this.walletRepository = walletRepository;
+    }
 
     public ResponseAPI<List<Wallet>> getAllWallets() {
         var wallets = walletRepository.findAll();
@@ -27,9 +24,7 @@ public class WalletService {
 
     public ResponseAPI<Wallet> getWalletById(String id) {
         try {
-            // s'assurer que l'id est un long
-            var idWallet = Long.parseLong(id);
-            // vérifier si un revenu avec l'id demandé existe
+            var idWallet = UUID.fromString(id);
             var walletFound = walletRepository.getReferenceById(idWallet);
             return ResponseApiService.createInstance("200", "Le portefeuille chargé avec succès", walletFound);
         } catch (NumberFormatException e) {
@@ -41,7 +36,7 @@ public class WalletService {
 
     public ResponseAPI<Wallet> createOrUpdateWallet(Wallet wallet) {
         // Si id = 0 on create
-        if (wallet.getId() == 0) {
+        if (wallet.getId() == null || wallet.getId().toString().isEmpty()) {
             var walletToCreate = walletRepository.save(wallet);
             return ResponseApiService.createInstance("201", "Portefeuille créé", walletToCreate);
         }
@@ -56,8 +51,6 @@ public class WalletService {
 
             return ResponseApiService.createInstance("202", "Le portefeuille à été mis à jour", wallet);
 
-        } catch (EntityNotFoundException e) {
-            return ResponseApiService.createInstance("402", "Aucun revenu trouvé à l'ID transmis : " + wallet.getId(), null);
         } catch (Exception e) {
             return ResponseApiService.createInstance("402", "Aucun revenu trouvé à l'ID transmis : " + wallet.getId(), null);
         }
@@ -66,7 +59,7 @@ public class WalletService {
     public ResponseAPI<Wallet> deleteWallet(String id) {
         try {
             // s'assurer que l'id est un long
-            var idWallet = Long.parseLong(id);
+            var idWallet = UUID.fromString(id);
             // vérifier si un revenu avec l'id demandé existe
             walletRepository.deleteById(idWallet);
             return ResponseApiService.createInstance("204", "Le portefeuille a été supprimé avec succès", null);
