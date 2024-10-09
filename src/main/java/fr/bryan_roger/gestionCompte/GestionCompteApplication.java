@@ -2,6 +2,8 @@ package fr.bryan_roger.gestionCompte;
 
 import fr.bryan_roger.gestionCompte.budget.Budget;
 import fr.bryan_roger.gestionCompte.budget.BudgetRepository;
+import fr.bryan_roger.gestionCompte.home.Home;
+import fr.bryan_roger.gestionCompte.home.HomeRepository;
 import fr.bryan_roger.gestionCompte.income.Income;
 import fr.bryan_roger.gestionCompte.income.IncomeRepository;
 import fr.bryan_roger.gestionCompte.spend.Spend;
@@ -12,10 +14,12 @@ import fr.bryan_roger.gestionCompte.user.User;
 import fr.bryan_roger.gestionCompte.user.UserRepository;
 import fr.bryan_roger.gestionCompte.wallet.Wallet;
 import fr.bryan_roger.gestionCompte.wallet.WalletRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -29,11 +33,12 @@ public class GestionCompteApplication {
         SpringApplication.run(GestionCompteApplication.class, args);
     }
 
-
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Bean
     CommandLineRunner commandLineRunner(TagRepository tagRepository, UserRepository userRepository, SpendRepository spendRepository,
-                                        IncomeRepository incomeRepository, WalletRepository walletRepository, BudgetRepository budgetRepository) {
+                                        IncomeRepository incomeRepository, WalletRepository walletRepository, BudgetRepository budgetRepository, HomeRepository homeRepository) {
         return args -> {
 
             Tag tagLoisir = tagRepository.save(new Tag("Loisir",false, true));
@@ -41,8 +46,10 @@ public class GestionCompteApplication {
             Tag tagSalaire = tagRepository.save(new Tag("Salaire", true, false));
             tagRepository.findAll().forEach(System.out::println);
 
-			User bryan = userRepository.save(new User("Michel", "Bryan", "#9AED8F", "#109592", null));
-			User flora = userRepository.save(new User("Kurti", "Flora", "#109592", "#FFEFBF", null));
+			User bryan = userRepository.save(new User("Roger", "Bryan", "#9AED8F", "#109592",
+                    null,BigDecimal.valueOf(.1),"bryan@gmail.com", passwordEncoder.encode("test")));
+			User flora = userRepository.save(new User("Kurti", "Flora", "#109592", "#FFEFBF",
+                    null,BigDecimal.valueOf(.9),"flora@gmail.com", passwordEncoder.encode("test")));
 			userRepository.findAll().forEach(System.out::println);
 
             Spend spendCourses = spendRepository.save(new Spend("Courses", "09-2024", bryan, List.of(bryan, flora), BigDecimal.valueOf(75.23), tagCourse));
@@ -70,6 +77,7 @@ public class GestionCompteApplication {
             Wallet walletFloraActive = walletRepository.save(new Wallet(List.of(budgetCourse, budgetLoisirFlora), yesterday, null, true ));
             walletRepository.findAll().forEach(System.out::println);
 
+            Home foyerPrincipal = homeRepository.save(new Home(List.of(tagSalaire), List.of(tagCourse, tagLoisir), List.of(bryan, flora)));
 
 
         };

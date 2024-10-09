@@ -11,8 +11,7 @@ import java.util.UUID;
 @Service
 public class UserService {
 
-    final
-    UserRepository userRepository;
+    final UserRepository userRepository;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
