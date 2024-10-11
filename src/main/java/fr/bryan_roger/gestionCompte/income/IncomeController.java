@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-@RequestMapping("/income")
+@RequestMapping("/api/v1/incomes")
 @RestController
 @CrossOrigin
 public class IncomeController {
@@ -18,7 +18,7 @@ public class IncomeController {
         this.incomeService = incomeService;
     }
 
-    @GetMapping("/all")
+    @GetMapping("")
     public ResponseEntity<ResponseAPI<List<Income>>> incomes() {
         var responseIncomes = incomeService.getAllIncomes();
         return ResponseEntity.ok(responseIncomes);

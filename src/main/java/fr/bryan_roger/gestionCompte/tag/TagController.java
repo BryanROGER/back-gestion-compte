@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/tag")
+@RequestMapping("/api/v1/tags")
 @RestController
 @CrossOrigin
 public class TagController {
@@ -17,7 +17,7 @@ public class TagController {
         this.tagService = tagService;
     }
 
-    @GetMapping("/all")
+    @GetMapping("")
     public ResponseEntity<ResponseAPI<List<Tag>>> tags() {
         var responseTags = tagService.getAllTags();
         return ResponseEntity.ok(responseTags);

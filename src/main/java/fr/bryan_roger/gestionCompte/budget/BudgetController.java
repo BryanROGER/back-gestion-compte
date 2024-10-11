@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/budget")
+@RequestMapping("/api/v1/budgets")
 @RestController
 @CrossOrigin
 public class BudgetController {

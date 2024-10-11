@@ -40,4 +40,11 @@ public class JwtResponseDTO {
             return new JwtResponseDTO(accessToken);
         }
     }
+
+    @Override
+    public String toString() {
+        return "JwtResponseDTO{" +
+                "accessToken='" + accessToken + '\'' +
+                '}';
+    }
 }

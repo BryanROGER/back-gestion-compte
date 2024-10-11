@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/wallet")
+@RequestMapping("/api/v1/wallets")
 @RestController
 @CrossOrigin
 public class WalletController {
@@ -17,7 +17,7 @@ public class WalletController {
         this.walletService = walletService;
     }
 
-    @GetMapping("/all")
+    @GetMapping("")
     public ResponseEntity<ResponseAPI<List<Wallet>>> wallets() {
         var responseWallet = walletService.getAllWallets();
         return ResponseEntity.ok(responseWallet);

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-@RequestMapping("/spend")
+@RequestMapping("/api/v1/spends")
 @RestController
 @CrossOrigin
 public class SpendController {
@@ -18,7 +18,7 @@ public class SpendController {
         this.spendService = spendService;
     }
 
-    @GetMapping("/all")
+    @GetMapping("")
     public ResponseEntity<ResponseAPI<List<Spend>>> spends() {
         var responseSpends = spendService.getAllSpends();
         return ResponseEntity.ok(responseSpends);
