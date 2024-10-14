@@ -2,26 +2,22 @@ package fr.bryan_roger.gestionCompte.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.bryan_roger.gestionCompte.config.security.UserRole;
+import fr.bryan_roger.gestionCompte.home.Home;
 import fr.bryan_roger.gestionCompte.wallet.Wallet;
 import jakarta.persistence.*;
-
-
 import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 public class User implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(nullable = false, updatable = false)
-    private UUID id;
+    private String email;
     private String lastname;
     private String firstname;
     private String backgroundColor;
@@ -29,19 +25,15 @@ public class User implements Serializable {
     @OneToOne
     private Wallet wallet;
     private BigDecimal repartition;
-    private String email;
     @JsonIgnore
     private String password;
     @ManyToMany (fetch = FetchType.EAGER)
     private Set<UserRole> roles = new HashSet<>();
+    @ManyToMany (fetch = FetchType.EAGER)
+    private List<Home> households = new ArrayList<>();
 
 
-    public UUID getId() {
-        return id;
-    }
-
-    public User(UUID id, String lastname, String firstname, String backgroundColor, String letterColor, Wallet wallet, BigDecimal repartition, String email, String password) {
-        this.id = id;
+    public User(String lastname, String firstname, String backgroundColor, String letterColor, Wallet wallet, BigDecimal repartition, String email, String password, Set<UserRole> roles, List<Home> households) {
         this.lastname = lastname;
         this.firstname = firstname;
         this.backgroundColor = backgroundColor;
@@ -50,20 +42,19 @@ public class User implements Serializable {
         this.repartition = repartition;
         this.email = email;
         this.password = password;
-    }
-
-    public User(String lastname, String firstname, String backgroundColor, String letterColor, Wallet wallet, BigDecimal repartition, String email, String password) {
-        this.lastname = lastname;
-        this.firstname = firstname;
-        this.backgroundColor = backgroundColor;
-        this.letterColor = letterColor;
-        this.wallet = wallet;
-        this.repartition = repartition;
-        this.email = email;
-        this.password = password;
+        this.roles = roles;
+        this.households = households;
     }
 
     public User() {
+    }
+
+    public List<Home> getHouseholds() {
+        return households;
+    }
+
+    public void setHouseholds(List<Home> households) {
+        this.households = households;
     }
 
     public BigDecimal getRepartition() {
@@ -112,10 +103,6 @@ public class User implements Serializable {
 
     public void setFirstname(String firstname) {
         this.firstname = firstname;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public String getBackgroundColor() {

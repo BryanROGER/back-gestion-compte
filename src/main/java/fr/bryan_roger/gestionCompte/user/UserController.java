@@ -23,17 +23,17 @@ public class UserController {
         return ResponseEntity.ok(responseUsers);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ResponseAPI<User>> getUser(@PathVariable String id) {
-        var responseUser = userService.getUserById(id);
+    @GetMapping("/{email}")
+    public ResponseEntity<ResponseAPI<User>> getUser(@PathVariable String email) {
+        var responseUser = userService.getUserById(email);
         return ResponseEntity.ok(responseUser);
     }
-
-    @PutMapping("/add")
-    public ResponseEntity<ResponseAPI<User>> addUser(@RequestBody User user) {
-        var responseUserToUpdate = userService.createOrUpdateUser(user);
-        return ResponseEntity.ok(responseUserToUpdate);
-    }
+//
+//    @PutMapping("/add")
+//    public ResponseEntity<ResponseAPI<User>> addUser(@RequestBody User user) {
+//        var responseUserToUpdate = userService.createOrUpdateUser(user);
+//        return ResponseEntity.ok(responseUserToUpdate);
+//    }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ResponseAPI<User>> deleteUser(@PathVariable String id) {

@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import jakarta.persistence.Id;
 
 @Entity
-@Table(name = "ROLES")
 public class UserRole {
 
     @Id
@@ -20,6 +19,9 @@ public class UserRole {
     public UserRole() {
     }
 
+    public UserRole(String name) {
+        this.name = name;
+    }
 
     public void setId(long id) {
         this.id = id;

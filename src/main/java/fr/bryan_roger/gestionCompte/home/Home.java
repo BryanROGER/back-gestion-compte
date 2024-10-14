@@ -1,15 +1,16 @@
 package fr.bryan_roger.gestionCompte.home;
 
 import fr.bryan_roger.gestionCompte.tag.Tag;
-import fr.bryan_roger.gestionCompte.user.User;
+
 import jakarta.persistence.*;
 
 import java.io.Serial;
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
-public class Home {
+public class Home implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -22,20 +23,28 @@ public class Home {
     private List<Tag> incomeTags;
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Tag> spendTags;
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<User> users;
+    private String name;
 
-    public Home(UUID id, List<Tag> incomeTags, List<Tag> spendTags, List<User> users) {
+    public Home(UUID id, List<Tag> incomeTags, List<Tag> spendTags, String name) {
         this.id = id;
         this.incomeTags = incomeTags;
         this.spendTags = spendTags;
-        this.users = users;
+        this.name = name;
     }
 
-    public Home(List<Tag> incomeTags, List<Tag> spendTags, List<User> users) {
+
+    public Home(List<Tag> incomeTags, List<Tag> spendTags, String name) {
         this.incomeTags = incomeTags;
         this.spendTags = spendTags;
-        this.users = users;
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Home() {
@@ -65,11 +74,4 @@ public class Home {
         this.spendTags = spendTags;
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
 }

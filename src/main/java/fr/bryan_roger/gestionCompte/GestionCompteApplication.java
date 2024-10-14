@@ -2,6 +2,8 @@ package fr.bryan_roger.gestionCompte;
 
 import fr.bryan_roger.gestionCompte.budget.Budget;
 import fr.bryan_roger.gestionCompte.budget.BudgetRepository;
+import fr.bryan_roger.gestionCompte.config.security.UserRole;
+import fr.bryan_roger.gestionCompte.config.security.UserRoleRepository;
 import fr.bryan_roger.gestionCompte.home.Home;
 import fr.bryan_roger.gestionCompte.home.HomeRepository;
 import fr.bryan_roger.gestionCompte.income.Income;
@@ -22,9 +24,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @SpringBootApplication
 public class GestionCompteApplication {
@@ -38,7 +38,7 @@ public class GestionCompteApplication {
 
     @Bean
     CommandLineRunner commandLineRunner(TagRepository tagRepository, UserRepository userRepository, SpendRepository spendRepository,
-                                        IncomeRepository incomeRepository, WalletRepository walletRepository, BudgetRepository budgetRepository, HomeRepository homeRepository) {
+                                        IncomeRepository incomeRepository, WalletRepository walletRepository, BudgetRepository budgetRepository, HomeRepository homeRepository, UserRoleRepository roleRepository) {
         return args -> {
 
             Tag tagLoisir = tagRepository.save(new Tag("Loisir",false, true));
@@ -46,10 +46,17 @@ public class GestionCompteApplication {
             Tag tagSalaire = tagRepository.save(new Tag("Salaire", true, false));
             tagRepository.findAll().forEach(System.out::println);
 
-			User bryan = userRepository.save(new User("Roger", "Bryan", "#9AED8F", "#109592",
-                    null,BigDecimal.valueOf(.1),"bryan@gmail.com", passwordEncoder.encode("test")));
+            Home foyerPrincipal = homeRepository.save(new Home(List.of(tagSalaire), List.of(tagCourse, tagLoisir), "Foyer principal"));
+            Home foyerSecondaire = homeRepository.save(new Home(List.of(tagSalaire), List.of(tagCourse, tagLoisir),"Seconde Zone"));
+
+            UserRole adminRole = roleRepository.save(new UserRole("ADMIN"));
+            UserRole userRole = roleRepository.save(new UserRole("USER"));
+
+//public User(String lastname, String firstname, String backgroundColor, String letterColor, Wallet wallet, BigDecimal repartition, String email, String password, Set<UserRole> roles, List<Home> households) {
+            User bryan = userRepository.save(new User("Roger", "Bryan", "#9AED8F", "#109592",
+                    null,BigDecimal.valueOf(.1),"bryan@gmail.com", passwordEncoder.encode("test"), Set.of(userRole, adminRole), List.of(foyerPrincipal, foyerSecondaire)));
 			User flora = userRepository.save(new User("Kurti", "Flora", "#109592", "#FFEFBF",
-                    null,BigDecimal.valueOf(.9),"flora@gmail.com", passwordEncoder.encode("test")));
+                    null,BigDecimal.valueOf(.9),"flora@gmail.com", passwordEncoder.encode("test"),Set.of(userRole), List.of(foyerPrincipal)));
 			userRepository.findAll().forEach(System.out::println);
 
             Spend spendCourses = spendRepository.save(new Spend("Courses", "09-2024", bryan, List.of(bryan, flora), BigDecimal.valueOf(75.23), tagCourse));
@@ -57,6 +64,9 @@ public class GestionCompteApplication {
 			Spend spendIglooPortatif = spendRepository.save(new Spend("Igloo portatif", "09-2024", flora, List.of(flora, bryan), BigDecimal.valueOf(120.99), tagLoisir));
 			Spend spendIglooPortatifMoisPrecedent = spendRepository.save(new Spend("Igloo portatif", "08-2024", flora, List.of(flora, bryan), BigDecimal.valueOf(120.99), tagLoisir));
 			spendRepository.findAll().forEach(System.out::println);
+
+
+
 
 			Income salaireBryan = incomeRepository.save(new Income(tagSalaire, bryan, BigDecimal.valueOf(2000), "09-2024"));
 			Income salaireFlora = incomeRepository.save(new Income(tagSalaire, flora, BigDecimal.valueOf(5000), "09-2024"));
@@ -77,7 +87,6 @@ public class GestionCompteApplication {
             Wallet walletFloraActive = walletRepository.save(new Wallet(List.of(budgetCourse, budgetLoisirFlora), yesterday, null, true ));
             walletRepository.findAll().forEach(System.out::println);
 
-            Home foyerPrincipal = homeRepository.save(new Home(List.of(tagSalaire), List.of(tagCourse, tagLoisir), List.of(bryan, flora)));
 
 
         };
