@@ -6,5 +6,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface SpendRepository extends JpaRepository<Spend, UUID> {
-    List<Spend> findByDate(String date);
+    List<Spend> findByDateAndHouseholdId(String date, UUID householdId);
 }

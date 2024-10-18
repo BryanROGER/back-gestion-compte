@@ -2,7 +2,7 @@ package fr.bryan_roger.gestionCompte.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.bryan_roger.gestionCompte.config.security.UserRole;
-import fr.bryan_roger.gestionCompte.home.Home;
+import fr.bryan_roger.gestionCompte.Household.Household;
 import fr.bryan_roger.gestionCompte.wallet.Wallet;
 import jakarta.persistence.*;
 import java.io.Serial;
@@ -30,10 +30,10 @@ public class User implements Serializable {
     @ManyToMany (fetch = FetchType.EAGER)
     private Set<UserRole> roles = new HashSet<>();
     @ManyToMany (fetch = FetchType.EAGER)
-    private List<Home> households = new ArrayList<>();
+    private List<Household> households = new ArrayList<>();
 
 
-    public User(String lastname, String firstname, String backgroundColor, String letterColor, Wallet wallet, BigDecimal repartition, String email, String password, Set<UserRole> roles, List<Home> households) {
+    public User(String lastname, String firstname, String backgroundColor, String letterColor, Wallet wallet, BigDecimal repartition, String email, String password, Set<UserRole> roles, List<Household> households) {
         this.lastname = lastname;
         this.firstname = firstname;
         this.backgroundColor = backgroundColor;
@@ -49,11 +49,11 @@ public class User implements Serializable {
     public User() {
     }
 
-    public List<Home> getHouseholds() {
+    public List<Household> getHouseholds() {
         return households;
     }
 
-    public void setHouseholds(List<Home> households) {
+    public void setHouseholds(List<Household> households) {
         this.households = households;
     }
 

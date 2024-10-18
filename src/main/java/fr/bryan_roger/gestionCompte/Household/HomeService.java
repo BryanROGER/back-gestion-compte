@@ -1,8 +1,7 @@
-package fr.bryan_roger.gestionCompte.home;
+package fr.bryan_roger.gestionCompte.Household;
 
 import fr.bryan_roger.gestionCompte.responseApi.ResponseAPI;
 import fr.bryan_roger.gestionCompte.responseApi.ResponseApiService;
-import fr.bryan_roger.gestionCompte.user.User;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +16,7 @@ public class HomeService {
         this.homeRepository = homeRepository;
     }
 
-    public ResponseAPI<Home> getHomeById(String id) {
+    public ResponseAPI<Household> getHomeById(String id) {
         try {
             var idHome = UUID.fromString(id);
             var homeFound = homeRepository.getReferenceById(idHome);

@@ -67,10 +67,11 @@ public class SpendService {
         }
     }
 
-    public ResponseAPI<List<Spend>> getSpendsInAMonth(String month, String year) {
+    public ResponseAPI<List<Spend>> getSpendsInAMonth(String month, String year, String householdId) {
         try {
             final var DATE = formatDateForDatabase.convertDateToCorrectFormatDatabase(month, year);
-            var spendsOfMonth = spendRepository.findByDate(DATE);
+            var spendsOfMonth = spendRepository.findByDateAndHouseholdId(DATE, UUID.fromString(householdId));
+            System.out.println(spendsOfMonth);
             return ResponseApiService.createInstance("200",String.format("Les dépenses du mois de %s ont été chargées avec succès", month), spendsOfMonth);
         } catch (Exception e) {
             return ResponseApiService.createInstance("401", String.format("Erreur dans la récupération des mois de %s ", month), null);

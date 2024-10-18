@@ -1,4 +1,4 @@
-package fr.bryan_roger.gestionCompte.home;
+package fr.bryan_roger.gestionCompte.Household;
 
 import fr.bryan_roger.gestionCompte.tag.Tag;
 
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-public class Home implements Serializable {
+public class Household implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -25,7 +25,7 @@ public class Home implements Serializable {
     private List<Tag> spendTags;
     private String name;
 
-    public Home(UUID id, List<Tag> incomeTags, List<Tag> spendTags, String name) {
+    public Household(UUID id, List<Tag> incomeTags, List<Tag> spendTags, String name) {
         this.id = id;
         this.incomeTags = incomeTags;
         this.spendTags = spendTags;
@@ -33,7 +33,7 @@ public class Home implements Serializable {
     }
 
 
-    public Home(List<Tag> incomeTags, List<Tag> spendTags, String name) {
+    public Household(List<Tag> incomeTags, List<Tag> spendTags, String name) {
         this.incomeTags = incomeTags;
         this.spendTags = spendTags;
         this.name = name;
@@ -47,7 +47,7 @@ public class Home implements Serializable {
         this.name = name;
     }
 
-    public Home() {
+    public Household() {
     }
 
     public UUID getId() {

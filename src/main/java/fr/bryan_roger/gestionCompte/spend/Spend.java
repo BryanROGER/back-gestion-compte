@@ -1,5 +1,6 @@
 package fr.bryan_roger.gestionCompte.spend;
 
+import fr.bryan_roger.gestionCompte.Household.Household;
 import fr.bryan_roger.gestionCompte.tag.Tag;
 import fr.bryan_roger.gestionCompte.user.User;
 import jakarta.persistence.*;
@@ -32,8 +33,19 @@ public class Spend implements Serializable {
     private BigDecimal amount;
     @ManyToOne
     private Tag tag;
+    @ManyToOne
+    @JoinColumn(name = "household_id")
+    private Household household;
 
-    public Spend(UUID id, String name, String date, User payer, List<User> recipients, BigDecimal amount, Tag tag) {
+    public Household getHome() {
+        return household;
+    }
+
+    public void setHome(Household household) {
+        this.household = household;
+    }
+
+    public Spend(UUID id, String name, String date, User payer, List<User> recipients, BigDecimal amount, Tag tag, Household household) {
         this.id = id;
         this.name = name;
         this.date = date;
@@ -41,15 +53,17 @@ public class Spend implements Serializable {
         this.recipients = recipients;
         this.amount = amount;
         this.tag = tag;
+        this.household = household;
     }
 
-    public Spend(String name, String date, User payer, List<User> recipients, BigDecimal amount, Tag tag) {
+    public Spend(String name, String date, User payer, List<User> recipients, BigDecimal amount, Tag tag, Household household) {
         this.name = name;
         this.date = date;
         this.payer = payer;
         this.recipients = recipients;
         this.amount = amount;
         this.tag = tag;
+        this.household = household;
     }
 
     public Spend() {

@@ -34,7 +34,8 @@ public class SpendController {
     public ResponseEntity<ResponseAPI<List<Spend>>> getSpendInMonth(@RequestBody Map<String, String> params) {
         String month = params.get("month");
         String year = params.get("year");
-        var spendInMonth = spendService.getSpendsInAMonth(month, year);
+        String householdId = params.get("householdID");
+        var spendInMonth = spendService.getSpendsInAMonth(month, year, householdId);
         return ResponseEntity.ok(spendInMonth);
     }
 
