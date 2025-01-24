@@ -34,7 +34,7 @@ public class SpendController {
     }
 
     @PostMapping("/all-in-a-month")
-    public ResponseEntity<ResponseAPI<List<Spend>>> getSpendInMonth(@RequestBody Map<String, String> params) {
+    public ResponseEntity<ResponseAPI<List<Spend>>> getSpendsInMonth(@RequestBody Map<String, String> params) {
         String month = params.get("month");
         String year = params.get("year");
         String householdId = params.get("householdID");

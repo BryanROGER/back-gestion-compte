@@ -14,22 +14,25 @@ import java.util.UUID;
 @AllArgsConstructor
 @ToString
 @Builder
-public class Income implements Serializable {
+public class Repartition implements Serializable {
     @Serial
-    private static final  long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false)
     private UUID id;
-    @ManyToOne
-    private Tag tag;
-    @ManyToOne
-    private User user;
-    private BigDecimal amount;
-    private String date;
-    @Column(name = "order_number")
-    private long order;
+    private String startDate;
+    private String endDate;
+    private boolean active;
     @ManyToOne
     private Household household;
+    @ManyToOne
+    private User user1;
+    @ManyToOne
+    private User user2;
+    private BigDecimal partUser1;
+    private BigDecimal partUser2;
+
+
 }

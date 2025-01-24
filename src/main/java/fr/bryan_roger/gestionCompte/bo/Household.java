@@ -23,10 +23,8 @@ public class Household implements Serializable {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false, updatable = false)
     private UUID id;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Tag> incomeTags;
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Tag> spendTags;
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Tag> tags;
     private String name;
 
 }

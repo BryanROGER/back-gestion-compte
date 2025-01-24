@@ -22,8 +22,8 @@ public class Tag implements Serializable {
     @Column(nullable = false)
     private UUID id;
     private String label;
-    private boolean income = false;
-    private boolean spend = false;
+    private boolean isIncome = false;
+    private boolean isSpend = false;
 
 
 }

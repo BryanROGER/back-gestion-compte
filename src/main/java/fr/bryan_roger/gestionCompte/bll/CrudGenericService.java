@@ -17,7 +17,7 @@ import java.util.List;
 public abstract class CrudGenericService<T, ID> {
 
     protected final JpaRepository<T, ID> repository;
-    protected final String entityName;
+    protected final String entityName ;
 
     protected CrudGenericService(JpaRepository<T, ID> repository, String entityName) {
         this.repository = repository;
@@ -49,6 +49,7 @@ public abstract class CrudGenericService<T, ID> {
         T newEntity = repository.save(entity);
         return ResponseApiService.createInstance("201", "Le " + entityName + " a été créé avec succès", newEntity);
     }
+
 
     public ResponseAPI<T> update(ID id, T updatedEntity) {
         if (!repository.existsById(id)) {

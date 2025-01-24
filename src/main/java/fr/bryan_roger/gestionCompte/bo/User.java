@@ -27,14 +27,9 @@ public class User implements Serializable{
     private String firstname;
     private String backgroundColor;
     private String letterColor;
-    @OneToOne
-    private Wallet wallet;
-    private BigDecimal repartition;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
-//    @ManyToMany (fetch = FetchType.EAGER)
-//    private Set<UserRole> roles = new HashSet<>();
-    private String role;
+      private String role;
     @ManyToMany (fetch = FetchType.EAGER)
     private List<Household> households = new ArrayList<>();
 

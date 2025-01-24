@@ -3,10 +3,8 @@ package fr.bryan_roger.gestionCompte.bo;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.lang.Nullable;
-
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,8 +29,12 @@ public class Wallet implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "budget_id"))
     @Nullable
     private List<Budget> budgets;
-    private Date startDate;
-    private Date endDate;
+    private String startDate;
+    private String endDate;
     private boolean isActive;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Household household;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User user;
 
 }
