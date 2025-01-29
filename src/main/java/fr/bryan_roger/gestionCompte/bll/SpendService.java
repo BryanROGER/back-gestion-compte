@@ -33,7 +33,7 @@ public class SpendService extends CrudGenericService<Spend, UUID> {
         this.formatDateForDatabase = formatDateForDatabase;
     }
 
-    public ResponseAPI<List<Spend>> getSpendsInAMonth(String month, String year, String householdId) {
+    public ResponseAPI<List<Spend>> getSpendsInMonth(String month, String year, String householdId) {
         try {
             final var DATE = formatDateForDatabase.convertDateToCorrectFormatDatabase(month, year);
             var spendsOfMonth = spendRepository.findByDateAndHouseholdId(DATE, UUID.fromString(householdId));

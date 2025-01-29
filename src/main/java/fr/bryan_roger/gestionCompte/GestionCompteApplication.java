@@ -2,7 +2,6 @@ package fr.bryan_roger.gestionCompte;
 
 import fr.bryan_roger.gestionCompte.bo.*;
 import fr.bryan_roger.gestionCompte.dal.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -26,14 +25,12 @@ public class GestionCompteApplication {
     private PasswordEncoder passwordEncoder;
 
     @Bean
-    CommandLineRunner commandLineRunner(TagRepository tagRepository, UserRepository userRepository, SpendRepository spendRepository,
+    CommandLineRunner commandLineRunner(SpendRepository spendRepository, TagRepository tagRepository, UserRepository userRepository,
+
                                         IncomeRepository incomeRepository, WalletRepository walletRepository, BudgetRepository budgetRepository, HomeRepository homeRepository, RepartitionRepository repartitionRepository) {
         return args -> {
 
             if (userRepository.findAll().isEmpty()) {
-
-
-                //Gestion des dates
 
                 LocalDate currentDate = LocalDate.now();
                 LocalDate dateLastMonth = currentDate.minusMonths(1);
@@ -57,10 +54,19 @@ public class GestionCompteApplication {
                         passwordEncoder.encode("test"), "ROLES_USER", List.of(foyerPrincipal)));
                 userRepository.findAll().forEach(System.out::println);
 
-                Spend spendCourses = spendRepository.save(new Spend(null, "Courses", dateCurrentMonth, bryan, List.of(bryan, flora), BigDecimal.valueOf(75.23), tagCourse, foyerPrincipal, 1));
+                Spend spendCourses = spendRepository.save(
+                        new Spend(null,
+                                "Carrefour",
+                                dateCurrentMonth,
+                                bryan,
+                                List.of(bryan, flora),
+                                BigDecimal.valueOf(75.23),
+                                tagCourse,
+                                foyerPrincipal,
+                                1));
                 Spend spendHomeTrainer = spendRepository.save(new Spend(null, "Home trainer", dateCurrentMonth, bryan, List.of(bryan), BigDecimal.valueOf(499.99), tagLoisir, foyerPrincipal, 2));
-                Spend spendIglooPortatif = spendRepository.save(new Spend(null, "Igloo portatif", dateCurrentMonth, flora, List.of(flora, bryan), BigDecimal.valueOf(120.99), tagLoisir, foyerPrincipal, 3));
-                Spend spendIglooPortatifMoisPrecedent = spendRepository.save(new Spend(null, "Igloo portatif", dateOneMonthAgo, flora, List.of(flora, bryan), BigDecimal.valueOf(120.99), tagLoisir, foyerPrincipal, 1));
+//                Spend spendIglooPortatif = spendRepository.save(new Spend(null, "Console de jeu", dateCurrentMonth, flora, List.of(flora, bryan), BigDecimal.valueOf(120.99), tagLoisir, foyerPrincipal, 3));
+                Spend spendIglooPortatifMoisPrecedent = spendRepository.save(new Spend(null, "Livre", dateOneMonthAgo, flora, List.of(flora, bryan), BigDecimal.valueOf(120.99), tagLoisir, foyerPrincipal, 1));
                 Spend spend2eFoyer = spendRepository.save(new Spend(null, "Test dep 2e foyer", dateCurrentMonth, flora, List.of(flora, bryan), BigDecimal.valueOf(120.99), tagSalaire2, foyerSecondaire, 1));
                 spendRepository.findAll().forEach(System.out::println);
 

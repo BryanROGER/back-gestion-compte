@@ -2,8 +2,11 @@ package fr.bryan_roger.gestionCompte.bo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -16,6 +19,7 @@ import java.util.*;
 @AllArgsConstructor
 @ToString
 @Builder
+@Table(name = "\"user\"")
 public class User implements Serializable{
     @Serial
     private static final long serialVersionUID = 1L;
@@ -31,6 +35,7 @@ public class User implements Serializable{
     private String password;
       private String role;
     @ManyToMany (fetch = FetchType.EAGER)
+    @Builder.Default
     private List<Household> households = new ArrayList<>();
 
 

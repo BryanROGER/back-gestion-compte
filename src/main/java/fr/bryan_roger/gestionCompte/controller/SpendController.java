@@ -38,7 +38,7 @@ public class SpendController {
         String month = params.get("month");
         String year = params.get("year");
         String householdId = params.get("householdID");
-        var spendInMonth = spendService.getSpendsInAMonth(month, year, householdId);
+        var spendInMonth = spendService.getSpendsInMonth(month, year, householdId);
         return ResponseEntity.ok(spendInMonth);
     }
 
