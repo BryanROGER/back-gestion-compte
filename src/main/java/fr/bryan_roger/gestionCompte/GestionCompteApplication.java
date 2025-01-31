@@ -49,7 +49,8 @@ public class GestionCompteApplication {
                 Household foyerPrincipal = homeRepository.save(new Household(null, List.of(tagSalaire, tagCourse, tagLoisir), "Foyer principal"));
                 Household foyerSecondaire = homeRepository.save(new Household(null, List.of(tagSalaire2), "Seconde Zone"));
 
-                User bryan = userRepository.save(new User("bryan@gmail.com", "Roger", "Bryan", "#9AED8F", "#109592", passwordEncoder.encode("test"), "ROLES_ADMIN", List.of(foyerPrincipal, foyerSecondaire)));
+                User bryan = userRepository.save(new User("bryan@gmail.com", "Roger", "Bryan", "#9AED8F", "#109592", passwordEncoder.encode("Azertyuiop10&10"), "ROLES_ADMIN", List.of(foyerPrincipal, foyerSecondaire)));
+                User PasDeFoyer = userRepository.save(new User("bb@gmail.com", "Pas de Foyer", "Pas de foyer", "#9AED8F", "#109592", passwordEncoder.encode("Azertyuiop10&10"), "ROLES_ADMIN", List.of(foyerPrincipal, foyerSecondaire)));
                 User flora = userRepository.save(new User("flora@gmail.com", "Kurti", "Flora", "#109592", "#FFEFBF",
                         passwordEncoder.encode("test"), "ROLES_USER", List.of(foyerPrincipal)));
                 userRepository.findAll().forEach(System.out::println);
