@@ -22,7 +22,7 @@ public class Wallet implements Serializable {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false, updatable = false)
     private UUID id;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "wallet_budget",
             joinColumns = @JoinColumn(name = "wallet_id"),

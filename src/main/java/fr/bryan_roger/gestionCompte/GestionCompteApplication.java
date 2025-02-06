@@ -49,10 +49,10 @@ public class GestionCompteApplication {
                 Household foyerPrincipal = homeRepository.save(new Household(null, List.of(tagSalaire, tagCourse, tagLoisir), "Foyer principal"));
                 Household foyerSecondaire = homeRepository.save(new Household(null, List.of(tagSalaire2), "Seconde Zone"));
 
-                User bryan = userRepository.save(new User("bryan@gmail.com", "Roger", "Bryan", "#9AED8F", "#109592", passwordEncoder.encode("Azertyuiop10&10"), "ROLES_ADMIN", List.of(foyerPrincipal, foyerSecondaire)));
-                User PasDeFoyer = userRepository.save(new User("bb@gmail.com", "Pas de Foyer", "Pas de foyer", "#9AED8F", "#109592", passwordEncoder.encode("Azertyuiop10&10"), "ROLES_ADMIN", List.of(foyerPrincipal, foyerSecondaire)));
+                User bryan = userRepository.save(new User("bryan@gmail.com", "Roger", "Bryan", "#9AED8F", "#109592", passwordEncoder.encode("Azertyuiop10&10"), "ROLE_ADMIN", List.of(foyerPrincipal, foyerSecondaire)));
+                User PasDeFoyer = userRepository.save(new User("bb@gmail.com", "Pas de Foyer", "Pas de foyer", "#9AED8F", "#109592", passwordEncoder.encode("Azertyuiop10&10"), "ROLE_ADMIN", List.of(foyerPrincipal, foyerSecondaire)));
                 User flora = userRepository.save(new User("flora@gmail.com", "Kurti", "Flora", "#109592", "#FFEFBF",
-                        passwordEncoder.encode("test"), "ROLES_USER", List.of(foyerPrincipal)));
+                        passwordEncoder.encode("Azertyuiop10&10"), "ROLE_USER", List.of(foyerPrincipal)));
                 userRepository.findAll().forEach(System.out::println);
 
                 Spend spendCourses = spendRepository.save(
@@ -66,8 +66,8 @@ public class GestionCompteApplication {
                                 foyerPrincipal,
                                 1));
                 Spend spendHomeTrainer = spendRepository.save(new Spend(null, "Home trainer", dateCurrentMonth, bryan, List.of(bryan), BigDecimal.valueOf(499.99), tagLoisir, foyerPrincipal, 2));
-//                Spend spendIglooPortatif = spendRepository.save(new Spend(null, "Console de jeu", dateCurrentMonth, flora, List.of(flora, bryan), BigDecimal.valueOf(120.99), tagLoisir, foyerPrincipal, 3));
                 Spend spendIglooPortatifMoisPrecedent = spendRepository.save(new Spend(null, "Livre", dateOneMonthAgo, flora, List.of(flora, bryan), BigDecimal.valueOf(120.99), tagLoisir, foyerPrincipal, 1));
+                Spend spendChaise = spendRepository.save(new Spend(null, "Livre", dateOneMonthAgo, bryan, List.of(flora, bryan), BigDecimal.valueOf(1200.), tagLoisir, foyerPrincipal, 4));
                 Spend spend2eFoyer = spendRepository.save(new Spend(null, "Test dep 2e foyer", dateCurrentMonth, flora, List.of(flora, bryan), BigDecimal.valueOf(120.99), tagSalaire2, foyerSecondaire, 1));
                 spendRepository.findAll().forEach(System.out::println);
 
@@ -76,9 +76,14 @@ public class GestionCompteApplication {
                 Income salaireFlora = incomeRepository.save(new Income(null, tagSalaire, flora, BigDecimal.valueOf(5000), dateCurrentMonth, 2, foyerPrincipal));
                 incomeRepository.findAll().forEach(System.out::println);
 
-                Budget budgetCourse = budgetRepository.save(new Budget(null, BigDecimal.valueOf(400), tagCourse));
+                Budget budgetCourseFlora = budgetRepository.save(new Budget(null, BigDecimal.valueOf(400), tagCourse));
+                Budget budgetCourseBryan = budgetRepository.save(new Budget(null, BigDecimal.valueOf(400), tagCourse));
                 Budget budgetLoisirBryan = budgetRepository.save(new Budget(null, BigDecimal.valueOf(200), tagLoisir));
                 Budget budgetLoisirFlora = budgetRepository.save(new Budget(null, BigDecimal.valueOf(1500), tagLoisir));
+                Budget budgetCourseFloraPrecedent = budgetRepository.save(new Budget(null, BigDecimal.valueOf(200), tagCourse));
+                Budget budgetCourseBryanPrecedent = budgetRepository.save(new Budget(null, BigDecimal.valueOf(200), tagCourse));
+                Budget budgetLoisirBryanPrecedent = budgetRepository.save(new Budget(null, BigDecimal.valueOf(100), tagLoisir));
+                Budget budgetLoisirFloraPrecedent = budgetRepository.save(new Budget(null, BigDecimal.valueOf(1500), tagLoisir));
                 budgetRepository.findAll().forEach(System.out::println);
 
 
@@ -87,8 +92,10 @@ public class GestionCompteApplication {
                 calendar.add(Calendar.DAY_OF_YEAR, -1);
                 Date yesterday = calendar.getTime();
 
-                Wallet walletBryanActive = walletRepository.save(new Wallet(null, List.of(budgetCourse, budgetLoisirBryan), dateStringCurrentMonth, null, true, foyerPrincipal, bryan));
-                Wallet walletFloraActive = walletRepository.save(new Wallet(null, List.of(budgetCourse, budgetLoisirFlora), dateStringCurrentMonth, null, true, foyerPrincipal, flora));
+                Wallet walletBryanActive = walletRepository.save(new Wallet(null, List.of(budgetCourseBryan, budgetLoisirBryan), dateStringCurrentMonth, null, true, foyerPrincipal, bryan));
+                Wallet walletFloraActive = walletRepository.save(new Wallet(null, List.of(budgetCourseFlora, budgetLoisirFlora), dateStringCurrentMonth, null, true, foyerPrincipal, flora));
+                Wallet walletBryanInactive = walletRepository.save(new Wallet(null, List.of(budgetCourseBryanPrecedent, budgetLoisirBryanPrecedent), dateStringCurrentMonth, null, true, foyerPrincipal, bryan));
+                Wallet walletFloraInactive = walletRepository.save(new Wallet(null, List.of(budgetCourseFloraPrecedent, budgetLoisirFloraPrecedent), dateStringCurrentMonth, null, true, foyerPrincipal, flora));
                 walletRepository.findAll().forEach(System.out::println);
 
                 Repartition repartition1 = repartitionRepository.save(new Repartition(null,"03-2024", "10-2024", false,foyerPrincipal, bryan, flora, BigDecimal.valueOf(10), BigDecimal.valueOf(90)));

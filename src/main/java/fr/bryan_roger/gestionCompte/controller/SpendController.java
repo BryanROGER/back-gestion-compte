@@ -4,6 +4,7 @@ import fr.bryan_roger.gestionCompte.bo.Spend;
 import fr.bryan_roger.gestionCompte.bo.ResponseAPI;
 import fr.bryan_roger.gestionCompte.bll.SpendService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
